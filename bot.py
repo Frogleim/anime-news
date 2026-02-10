@@ -8,7 +8,7 @@ import json
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
-CHAT_ID = os.getenv("MY_ID")
+CHAT_ID = os.getenv("CHAT_ID")
 SENT_NEWS_FILE = "sent_news.json"
 
 
