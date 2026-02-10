@@ -175,7 +175,8 @@ def send_news_updates():
 
 
 if __name__ == "__main__":
+    import random
     while True:
         send_news_updates()
         print(f"Waiting for next check... ({datetime.now().strftime('%Y-%m-%d %H:%M:%S')})")
-        time.sleep(3600)  # Check every hour instead of every day
+        time.sleep(3600 * random.randint(7, 22))  # Check every hour instead of every day
