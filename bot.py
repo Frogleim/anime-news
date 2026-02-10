@@ -8,7 +8,7 @@ import json
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+CHAT_ID = os.getenv("MY_ID")
 SENT_NEWS_FILE = "sent_news.json"
 
 
@@ -85,46 +85,6 @@ def format_news_message(news_item):
     return message
 
 
-def send_news_updates():
-    # API URL and headers for news
-    url = 'https://cr-news-api-service.prd.crunchyrollsvc.com/v1/en-US/widget/topstoriesasidewidget'
-    headers = {
-        'accept': 'application/json, text/plain, */*',
-        'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-        # Add other required headers here
-    }
-
-    try:
-        response = requests.get(url, headers=headers)
-        news_data = response.json()
-        recent_news = get_recent_news(news_data)
-
-        if recent_news:
-            print(f"Sending {len(recent_news)} news items...")
-            for news in recent_news:
-                message = format_news_message(news)
-                # Send message with image if available
-                success = send_telegram_message(
-                    TOKEN,
-                    CHAT_ID,
-                    message,
-                    news['thumbnail']
-                )
-                if success:
-                    print(f"Sent news: {news['headline'][:50]}...")
-                # Add delay between messages to avoid rate limiting
-                time.sleep(1)
-        else:
-            print("No recent news found")
-
-    except Exception as e:
-        print(f"Error fetching or sending news: {str(e)}")
-
-
-
-
-
-
 def load_sent_news():
     """Load previously sent news from JSON file"""
     try:
@@ -174,6 +134,7 @@ def send_news_updates():
         sent_news = cleanup_old_news(sent_news)
 
         response = requests.get(url, headers=headers)
+        print(response.json())
         news_data = response.json()
         recent_news = get_recent_news(news_data)
 
